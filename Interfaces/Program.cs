@@ -5,7 +5,22 @@ namespace Interfaces
 	{
 		static void Main(string[] args)
 		{
-            Console.WriteLine("Hello world");
-        }
+			UseOrders();
+			UseLogger();
+		}
+
+		static void UseOrders()
+		{
+			var orderProcessor = new OrderProcessor(new ShippingCalculator());
+			var order = new Order { DatePlaced = DateTime.Now, TotalPrice = 100f };
+			orderProcessor.Process(order);
+		}
+
+		static void UseLogger()
+		{
+			//var dbMigrator = new DbMigrator(new ConsoleLogger());
+			var dbMigrator = new DbMigrator(new FileLogger("C:\\Proyectos\\log.txt"));
+			dbMigrator.Migrate();
+		}
 	}
 }
