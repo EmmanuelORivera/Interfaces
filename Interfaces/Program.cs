@@ -8,6 +8,7 @@ namespace Interfaces
 			UseOrders();
 			UseLogger();
 			UseEmail();
+			UseWorkflow();
 		}
 
 		static void UseOrders()
@@ -30,6 +31,17 @@ namespace Interfaces
 			encoder.RegisterNotificationChannel(new MailNotificationChannel());
 			encoder.RegisterNotificationChannel(new SmsNotificationChannel());
 			encoder.Encode(new Video());
+		}
+		static void UseWorkflow()
+		{
+			var workflow = new Workflow();
+			workflow.RegisterActivity(new UploadVideoActivity());
+			workflow.RegisterActivity(new CallWebServiceActivity());
+			workflow.RegisterActivity(new SendEmailActivity());
+			workflow.RegisterActivity(new ChangeStatusVideoActivity());
+
+            var workflowEngine = new WorkflowEngine();
+			workflowEngine.Run(workflow);
 		}
 	}
 }
