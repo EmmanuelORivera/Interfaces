@@ -7,6 +7,7 @@ namespace Interfaces
 		{
 			UseOrders();
 			UseLogger();
+			UseEmail();
 		}
 
 		static void UseOrders()
@@ -18,9 +19,17 @@ namespace Interfaces
 
 		static void UseLogger()
 		{
-			//var dbMigrator = new DbMigrator(new ConsoleLogger());
-			var dbMigrator = new DbMigrator(new FileLogger("C:\\Proyectos\\log.txt"));
+			var dbMigrator = new DbMigrator(new ConsoleLogger());
+			//var dbMigrator = new DbMigrator(new FileLogger("C:\\Proyectos\\log.txt"));
 			dbMigrator.Migrate();
+		}
+
+		static void UseEmail()
+		{
+			var encoder = new VideoEncoder();
+			encoder.RegisterNotificationChannel(new MailNotificationChannel());
+			encoder.RegisterNotificationChannel(new SmsNotificationChannel());
+			encoder.Encode(new Video());
 		}
 	}
 }
